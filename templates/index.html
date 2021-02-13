@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>BDAT1007</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="../static/assets/css/main.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+        
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						
+						<h1>Welcome to my <strong>Web Application</strong>, a Flask application that connects to <strong>Twitter</strong> and <strong>Tumblr</strong></h1>
+						<h2>Data From The Social Meida</h2>
+						<ul class="icons">
+							<li><a href="/api/getTwitter" class="icon style2 fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="/api/getTumblr" class="icon style2 fa-tumblr"><span class="label">Tumblr</span></a></li>
+						</ul>
+						<h2>View Data Stored In The MongoDB</h2>
+						<ul class="icons">
+							<li><a class="icon style2 fa-twitter" id="getTwitterData"><span class="label">Twitter</span></a></li>
+							<li><a class="icon style2 fa-tumblr" id="getTumblrData"><span class="label">Tumblr</span></a></li>
+						</ul>
+						<h2>Post Data To The Social Media</h2>
+						<ul class="icons">
+							<li><a id="postTwitterData" class="icon style2 fa-twitter"><span class="label">Twitter+</span></a></li>
+							<li><a id="postTumblrData" class="icon style2 fa-tumblr"><span class="label">Tumblr+</span></a></li>
+						</ul>
+						<h2>About Me</h2>
+                        <h3>Kelvin Jose Pinto</h3>
+						<ul class="icons">
+							<li><a href="https://twitter.com/KelvinPGC" class="icon style2 fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
+							<li><a href="https://www.tumblr.com/blog/view/kelvinpintodev" class="icon style2 fa-tumblr" target="_blank"><span class="label" >Tumblr</span></a></li>
+							<li><a href="https://github.com/BDAT1007-Social-Data-Mining-Techniques/Assignment2" class="icon style2 fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+							<li><a href="https://cloud.mongodb.com/v2/60224576a2cab6605e01247e#metrics/replicaSet/6022465865f47f17bb0a1d97/explorer/assignment2" class="icon style2 fa-database" target="_blank"><span class="label" >MongoDB</span></a></li>
+						</ul>
+					</header>
+
+			</div>
+    <!-- Twitter Modal START-->
+    <div id="twitterModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="twitterClose">&times;</span>
+          <h1 class="modal-title"><a class="icon style2 fa-twitter"></a>  Twitter Data</h1>
+          <table id="twitterTable" class="modal-table" style="width:100%">
+           <!-- DataTable START-->
+            <thead>
+                    <tr>
+                        <th>Tweet Number</th>
+                        <th>Tweet Text</th>
+                        <th>Source URL</th>
+                        <th>Created At</th>
+                        <th>Favourite Count</th>
+                        <th>Language</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Tweet Number</th>
+                        <th>Tweet Text</th>
+                        <th>Source URL</th>
+                        <th>Created At</th>
+                        <th>Favourite Count</th>
+                        <th>Language</th>
+                    </tr>
+                </tfoot>
+              </table>
+              <!-- DataTable END-->
+        </div>
+      </div>
+      <!-- Twitter Modal END -->
+
+      <!-- Tumblr Modal START-->
+    <div id="tumblrModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="tumblrClose">&times;</span>
+          <h1 class="modal-title"><a class="icon style2 fa-tumblr"></a>  Tumblr Data</h1>
+          <table id="tumblrTable" class="modal-table" style="width:100%">
+           <!-- DataTable START-->
+            <thead>
+                    <tr>
+                        <th>Post Number</th>
+                        <th>Post Title</th>
+                        <th>Post Type</th>
+                        <th>Post URL</th>
+                        <th>Created At</th>
+                        <th>Post Content</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Post Number</th>
+                        <th>Post Title</th>
+                        <th>Post Type</th>
+                        <th>Post URL</th>
+                        <th>Created At</th>
+                        <th>Post Content</th>
+                    </tr>
+                </tfoot>
+              </table>
+              <!-- DataTable END-->
+        </div>
+      </div>
+      <!-- Tumblr Modal END -->
+
+      <!-- Post Twitter Modal START-->
+    <div id="postTwitterModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="postTwitterClose">&times;</span>
+          <h1 class="modal-title"><a class="icon style2 fa-twitter"></a>  Post on Twitter!</h1>
+          <textarea onkeyup="textTwitterSuccess()" rows="4" cols="50" name="tweetText" form="tweetForm" placeholder="What's happening?" id="tweetTextArea" class="input"></textarea><br>
+          <form action="/api/postTwitter", method = "POST",  id="tweetForm">
+            
+            <input class="postTwitterButton" type = "submit" value = "Tweet" id="tweetUpdate" onclick="alert('Tweet Successful!');" disabled/>
+          </form>
+          <br><br>
+        </div>
+      </div>
+      <!-- Post Twitter Modal END -->
+      <!-- Post Tumblr Modal START-->
+    <div id="postTumblrModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="postTumblrClose">&times;</span>
+          <h1 class="modal-title"><a class="icon style2 fa-tumblr"></a>  Post on Tumblr!</h1>
+          <form action="/api/postTumblr", method = "POST", id="tumblrForm", enctype = "multipart/form-data">
+            <input type="text" onkeyup="textTumblrSuccess()"  name="tumblrTitle" placeholder="Title" id="tumblrTitle"/><br>
+            <input type="text" onkeyup="textTumblrSuccess()" style="height:150px;" name="tumblrText" placeholder="Your text here" id="tumblrText" />
+            <br><input type="file" name="imFile" /><br>
+            <input class="postTumblrButton" type = "submit" value = "Post" id="tumblrUpdate" onclick="alert('Post Successful!');" disabled/>
+          </form>
+          <br><br>
+        </div>
+      </div>
+      <!-- PostTumblr Modal END -->
+
+      <script>
+            //get twitter modal
+            var twitterModal = document.getElementById("twitterModal");
+            //get tumblr modal
+            var tumblrModal = document.getElementById("tumblrModal");
+            //Post twitter Modal
+            var postTwitterModal = document.getElementById("postTwitterModal");
+            //Post Tumblr Modal
+            var postTumblrModal = document.getElementById("postTumblrModal");
+
+            // Get the <span> element that closes the modal
+            var twitterClose = document.getElementsByClassName("twitterClose")[0];
+            // Get the <span> element that closes the modal
+            var tumblrClose = document.getElementsByClassName("tumblrClose")[0];
+            // Get the <span> element that closes the modal
+            var postTwitterClose = document.getElementsByClassName("postTwitterClose")[0];
+            // Get the <span> element that closes the modal
+            var postTumblrClose = document.getElementsByClassName("postTumblrClose")[0];
+            //onclick function for getTwitterData button
+            document.getElementById("getTwitterData").onclick = function(){
+                twitterModal.style.display = "block";
+                twitterClose.onclick = function() {
+                    twitterModal.style.display = "none";
+                    }
+                window.onclick = function(event) {
+                    if (event.target == twitterModal) {
+                        twitterModal.style.display = "none";
+                    }
+                }
+            }
+            //onclick function for getTumblrData button
+            document.getElementById("getTumblrData").onclick = function(){
+                tumblrModal.style.display = "block";
+                tumblrClose.onclick = function() {
+                    tumblrModal.style.display = "none";
+                    }
+                window.onclick = function(event) {
+                    if (event.target == tumblrModal) {
+                        tumblrModal.style.display = "none";
+                    }
+                }
+            }
+            //onclick function for postTwitterData button
+            document.getElementById("postTwitterData").onclick = function(){
+                postTwitterModal.style.display = "block";
+                postTwitterClose.onclick = function() {
+                    postTwitterModal.style.display = "none";
+                    }
+                window.onclick = function(event) {
+                    if (event.target == postTwitterModal) {
+                        postTwitterModal.style.display = "none";
+                    }
+                }
+            }
+            //onclick function for postTumblrData button
+            document.getElementById("postTumblrData").onclick = function(){
+                postTumblrModal.style.display = "block";
+                postTumblrClose.onclick = function() {
+                    postTumblrModal.style.display = "none";
+                    }
+                window.onclick = function(event) {
+                    if (event.target == postTumblrModal) {
+                        postTumblrModal.style.display = "none";
+                    }
+                }
+            }
+            function textTwitterSuccess() {
+                if(document.getElementById("tweetTextArea").value==="") { 
+                        document.getElementById('tweetUpdate').disabled = true; 
+                        document.getElementById('tweetUpdate').style.backgroundColor(rgb(29, 161, 242)); 
+                        
+                    } else { 
+                        document.getElementById('tweetUpdate').disabled = false;
+                    }
+            }
+            function textTumblrSuccess() {
+                if(document.getElementById("tumblrText").value==="" || document.getElementById("tumblrTitle").value==="") { 
+                        document.getElementById('tumblrUpdate').disabled = true; 
+                        document.getElementById('tumblrUpdate').style.backgroundColor(rgb(29, 161, 242)); 
+                    } else { 
+                        document.getElementById('tumblrUpdate').disabled = false;
+                    }
+            }
+            function setupData() {
+                $(document).ready(function () {
+                    var twitterTable = $('#twitterTable').DataTable({
+                        "ajax": {
+                            "url": "/api/viewTweets", //run get
+                            "dataType": "json",
+                            "dataSrc": "data",
+                            "contentType":"application/json",
+                        },
+                        "columns": [
+                            {"data": "status_num"},
+                            {"data": "status_text"},
+                            {"data": "status_name"},
+                            {"data": "status_createdAt"},
+                            {"data": "status_favouriteCount"},
+                            {"data": "status_lang"}
+                        ] 
+                    });
+                    var tumblrTable = $('#tumblrTable').DataTable({
+                        "ajax": {
+                            "url": "/api/viewTumblr", //run get
+                            "dataType": "json",
+                            "dataSrc": "data",
+                            "contentType":"application/json",
+                        },
+                        "columns": [
+                            {"data": "post_number"},
+                            {"data": "post_title"},
+                            {"data": "post_type"},
+                            {"data": "post_url"},
+                            {"data": "post_createdAt"},
+                            {"data": "post_content"}
+                        ] 
+                    });
+                });
+            }
+            $( window ).on( "load", setupData );
+      </script>
+	</body>
+</html>
